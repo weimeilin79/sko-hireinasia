@@ -1,0 +1,114 @@
+---
+swagger: 2.0
+info:
+  title: Trello API
+  description: This document describes the REST API of Trello as published by Trello.com.
+    <a href='https://trello.com/docs/index.html' target='_blank'>Official Documentation</a>
+  termsOfService: https://trello.com/legal
+  contact:
+    name: Trello
+    url: https://trello.com/home
+  license:
+    name: 'Trello : Terms of Service'
+    url: https://trello.com/legal
+  version: 1.0
+host: api.trello.com
+basePath: /1
+schemes:
+- https
+paths:
+  /cards:
+    post:
+      tags:
+      - card
+      summary: addCards()
+      operationId: addCards
+      parameters:
+      - name: name
+        in: query
+        description: The name of the new card.  It isn&#39;t required if the name
+          is being copied from provided by a URL, file or card that is being copied.
+        required: "false"
+        type: string
+      - name: token
+        in: query
+        description: The Token of the user.
+        required: "true"
+        type: string
+      - name: key
+        in: query
+        description: The API Key.
+        required: "true"
+        type: string
+      - name: desc
+        in: query
+        description: a string with a length from 0 to 16384
+        required: "false"
+        type: string
+      - name: pos
+        in: query
+        description: A position. top , bottom , or a positive number.
+        required: "false"
+        type: string
+        default: bottom
+      - name: due
+        in: query
+        description: A date, or null
+        required: "true"
+        type: string
+      - name: labels
+        in: query
+        description: 'all or a comma-separated list of: blue, green, orange, purple,
+          red or yellow'
+        required: "false"
+        type: string
+      - name: idList
+        in: query
+        description: id of the list that the card should be added to
+        required: "true"
+        type: string
+        default: youridlist
+      - name: idMembers
+        in: query
+        description: A comma-separated list of objectIds, 24-character hex strings
+        required: "false"
+        type: string
+      - name: idLabels
+        in: query
+        description: A comma-separated list of objectIds, 24-character hex strings
+        required: "false"
+        type: string
+      - name: urlSource
+        in: query
+        description: A URL starting with http:// or https:// or null
+        required: "true"
+        type: string
+        default: http://redhat.com
+      - name: fileSource
+        in: query
+        description: A file
+        required: "false"
+        type: string
+      - name: idCardSource
+        in: query
+        description: The id of the card to copy into a new card.
+        required: "false"
+        type: string
+      - name: keepFromSource
+        in: query
+        description: Properties of the card to copy over from the source.
+        required: "false"
+        type: string
+        default: all
+      responses:
+        200:
+          description: Return ok
+          schema:
+            type: string
+      security:
+      - trello_auth:
+        - read:boards
+        - write:boards
+tags:
+- name: card
+  description: https://trello.com/docs/api/card/index.html
