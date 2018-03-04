@@ -30,16 +30,6 @@ paths:
           is being copied from provided by a URL, file or card that is being copied.
         required: "false"
         type: string
-      - name: token
-        in: query
-        description: The Token of the user.
-        required: "true"
-        type: string
-      - name: key
-        in: query
-        description: The API Key.
-        required: "true"
-        type: string
       - name: desc
         in: query
         description: a string with a length from 0 to 16384
