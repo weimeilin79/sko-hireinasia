@@ -13,6 +13,9 @@
   "paths": {
     "/cards": {
       "post": {
+        "tags": [
+          "addCards"
+        ],
         "summary": "addCards()",
         "operationId": "addCards",
         "description": "Add Card",

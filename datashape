@@ -1,0 +1,18 @@
+postwitter
+
+{
+	"title":"Fuse TMM",
+	"location":"Boston",
+	"jobURL":"http://google.com"
+}
+
+createcard
+{
+		"idList":"5a9e17341917329e13af2954",
+		"apiKey":"41acc9e1c7e215685f6ee3aca7de88b0",
+		"token":"5fc357e404c37037b8a510587ab29425acf3b79ecd2018bc740b697ede81b488",
+		"cardname":" Christina Lin",
+		"description":"Job Application by John Smith",
+		"imageurl":"https://lh3.googleusercontent.com/oKsgcsHtHu_nIkpNd-mNCAyzUD8xo68laRPOfvFuO0hqv6nDXVNNjEMmoiv9tIDgTj8=w170",
+		"due":"null"
+}
