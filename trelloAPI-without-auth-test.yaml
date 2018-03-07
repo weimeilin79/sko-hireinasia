@@ -102,15 +102,3 @@ paths:
 tags:
 - name: card
   description: https://trello.com/docs/api/card/index.html
-securityDefinitions:
-  api_key:
-    type: apiKey
-    name: api_key
-    in: header
-  trello_auth:
-    type: oauth2
-    flow: implicit
-    authorizationUrl: https://trello.com/1/authorize
-    scopes:
-      write:boards: modify any of the boards in your account
-      read:boards: read any of the boards in your account
