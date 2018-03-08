@@ -1,0 +1,65 @@
+swagger: '2.0'
+info:
+  description: create card Trello
+  version: 1.0.0
+  title: Trello API - New
+host: api.trello.com
+schemes:
+  - https
+paths:
+  /1/cards:
+    post:
+      tags:
+        - addCards
+      summary: addCards
+      description: addCards
+      parameters:
+        - name: key
+          in: query
+          description: API Key
+          required: true
+          type: string
+        - name: token
+          in: query
+          description: Access Token
+          required: true
+          type: string
+        - name: name
+          in: query
+          description: The name of the new card
+          required: true
+          type: string
+        - name: desc
+          in: query
+          description: a string with a length from 0 to 16384
+          type: string
+        - name: pos
+          in: query
+          description: A position.
+          required: false
+          type: string
+        - name: due
+          in: query
+          description: A date or null
+          required: true
+          type: string
+        - name: idList
+          in: query
+          description: id of the list that the card should be added to
+          required: true
+          type: string
+        - name: labels
+          in: query
+          description: all
+          required: false
+          type: string
+        - name: urlSource
+          in: query
+          description: A URL starting
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Payment Done
+          schema:
+            type: string

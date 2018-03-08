@@ -1,0 +1,53 @@
+swagger: '2.0'
+info:
+  description: Twitter work around
+  version: 1.0.0
+  title: Hireinasia
+host: customizetwitter-fuseignite.52.230.124.252.nip.io
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+tags:
+  - name: twitter
+paths:
+  /twitter/update:
+    post:
+      tags:
+        - twitter
+      parameters: 
+        - name: content
+          in: body
+          description: Tweet content
+          required: true
+          schema:
+            $ref: '#/definitions/Message'
+      responses:
+        '200':
+          description: done
+          schema:
+            $ref: '#/definitions/ReturnMessage'
+        '400':
+          description: error
+          schema:
+            $ref: '#/definitions/ReturnMessage'
+definitions:
+  Message:
+    required:
+      - content
+    properties:
+      content:
+        type: string
+  ReturnMessage:
+    required:
+      - description
+      - errorcode
+    properties:
+      code:
+        description: Error Code
+        type: integer
+      description:
+        description: Reason of failure
+        type: string
