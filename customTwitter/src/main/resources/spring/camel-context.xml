@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+    <!-- Define a traditional camel context here -->
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <restConfiguration apiContextPath="api-docs" bindingMode="auto"
+            component="netty4-http" enableCORS="true" port="8080">
+            <apiProperty key="cors" value="true"/>
+            <apiProperty key="api.title" value="Twitter Update Feed"/>
+            <apiProperty key="api.version" value="1.0.0"/>
+            <apiProperty key="cors" value="true"/>
+        </restConfiguration>
+        <rest path="/twitter/">
+            <post uri="update">
+                <to uri="direct:tweet"/>
+            </post>
+        </rest>
+        <route id="lookup-route">
+            <from id="_direct1" uri="direct:tweet"/>
+            <log id="lookup-log1" message=">>> ${body[content]}"/>
+            <setBody id="_setBody1">
+                <simple>${body[content]}</simple>
+            </setBody>
+            <to id="_to1" uri="twitter://timeline/user?consumerKey=5shTSDoiBjQWfmLyiHkHoUFuI&amp;consumerSecret=2ZdeAJtgSCobUrOJULdisnD5AK7bqSOiRstqICceT0AvqFpvXL&amp;accessToken=966922951009292288-N0XQACZkeHnSRX3cBQv45ymPnD6Gocs&amp;accessTokenSecret=bICEEM0cnJ6yFf9MYACTxa93iCAZdX4qnBSICtEyWN5H8"/>
+            <log id="lookup-log2" message=">>> ${body}"/>
+        </route>
+    </camelContext>
+</beans>

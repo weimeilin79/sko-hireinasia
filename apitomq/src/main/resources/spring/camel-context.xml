@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+    <!-- Define a traditional camel context here -->
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <restConfiguration apiContextPath="api-docs" bindingMode="auto"
+            component="netty4-http" enableCORS="true" port="8080">
+            <apiProperty key="cors" value="true"/>
+            <apiProperty key="api.title" value="SKO Hirenasia"/>
+            <apiProperty key="api.version" value="1.0.0"/>
+        </restConfiguration>
+        <rest path="/hireinasia/">
+            <post uri="createcard">
+                <to uri="direct:createcard"/>
+            </post>
+            <post uri="tweetjob">
+                <to uri="direct:tweetjob"/>
+            </post>
+        </rest>
+        <route id="trello-route">
+            <from id="_direct1" uri="direct:createcard"/>
+            <log id="lookup-log1" message=">>> ${body}"/>
+            <setBody id="_setBody1">
+                <simple>${body['CreateCardInTrello']}</simple>
+            </setBody>
+            <bean id="_bean1" method="convertoTrelloMsg" ref="convertProcessor"/>
+            <marshal id="_marshal1">
+                <json library="Jackson"/>
+            </marshal>
+            <log id="lookup-log2" message=">>> ${body} headers ${in.headers}"/>
+            <removeHeaders id="_removeHeaders1" pattern="*"/>
+            <to id="_amq1" uri="amq:queue:createcard"  pattern="InOnly" />
+            <setBody id="_setBody3">
+                <constant>{"status":"DONE!"}</constant>
+            </setBody>
+        </route>
+        <route id="twitter-route">
+            <from id="_direct2" uri="direct:tweetjob"/>
+            <log id="lookup-log3" message=">>> ${body}"/>
+            <setBody id="_setBody2">
+                <simple>${body['PostJobToTwitter']}</simple>
+            </setBody>
+            <bean id="_bean2" method="convertoTwitterMsg" ref="convertProcessor"/>
+            <marshal id="_marshal2">
+                <json library="Jackson"/>
+            </marshal>
+            <log id="lookup-log4" message=">>> ${body} headers ${in.headers}"/>
+            <removeHeaders id="_removeHeaders2" pattern="*"/>
+            <log id="lookup-log4" message=">>> BODY ${body}"/>
+            <to id="_amq2" uri="amq:queue:postwitter"  pattern="InOnly" />
+            <log id="lookup-log5" message=">>> BODY ${body}"/>
+            <setBody id="_setBody4">
+                <constant>{"status":"DONE!"}</constant>
+            </setBody>
+        </route>
+    </camelContext>
+</beans>
